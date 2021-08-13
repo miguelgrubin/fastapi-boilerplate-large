@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+# https://github.com/psf/black
+line-length = 100
+target-version = ["py39"]
+
+[tool.isort]
+# https://github.com/timothycrosley/isort/
+src_paths = ["src", "tests"]
+known_typing = "typing,types,typing_extensions,mypy,mypy_extensions"
+sections = "FUTURE,TYPING,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+include_trailing_comma = true
+default_section = "FIRSTPARTY"
+multi_line_output = 3
+indent = 4
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 100
+
+[tool.mypy]
+# https://github.com/python/mypy
+plugins = "pydantic.mypy, sqlmypy"
+ignore_missing_imports = true
+disallow_untyped_defs = true
+python_version = 3.9
+pretty = true
+allow_redefinition = false
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+implicit_reexport = false
+strict_optional = true
+strict_equality = true
+no_implicit_optional = true
+warn_no_return = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_return_any = true
+warn_unreachable = true
+show_error_codes = true
+show_column_numbers = true
+show_error_context = true
+
+[tool.pytest]
+# https://github.com/pytest-dev/pytest/
+norecursedirs = "*.egg .eggs dist build docs .tox .git __pycache__"
+doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+addopts = [
+  "--strict",
+  "--tb=short",
+  "--doctest-modules",
+  "--doctest-continue-on-failure",
+]
