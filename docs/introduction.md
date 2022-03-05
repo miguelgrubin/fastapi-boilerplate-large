@@ -2,53 +2,61 @@
 
 **What?**
 
-In this project there are so many concepts of DDD but its no a complete implemetation of DDD.
+Its a blog example using hexagonal architecture using app modules. Oriented to Large Projects.
 
 **Why?**
 
-Because there are only 20 use cases and life its too short to overengineer in all projects.
+_Why Hexagonal Architecture?_
+
+Ports and Adapters, decoupled, testing strategy, tracing errors. ToDo: Explain this
+
+_Why not preventive DDD?_
+
+You Aren't Gonna Need It (YAGNI) if your project is datacentric, CRUDy or your domain layer is not really complex.
+And becouse life its too short to overengineer in all projects.
 
 **How?**
 
-- Articles `Aggregate Root`
-  - Tags `Value-Object`
-  - Commnets `Entity`
-- Users `Aggregate Root`
-  - Profile `Value-Object`
+```
+Presentation      => HTTP Routers, ErrorHandlers, Middlewares, CLI commands <= Integration and E2E testing
+ ↓ ↑
+Application       => Use Cases <= Social Unit Testing (Application + Domain)
+ ↓ ↑
+Domain            => DomainModels, AbstractRepositories, Events, Errors <= Solitary Unit Testing (single class or function)
+ ↓ ↑
+Infrastructure    => Repositories <= Integration testing
+```
+
+- Blog `App Module`
+  - Articles `DomainModel`
+  - Users `DomainModel`
 
 ## Project Schema
 
 ```
 src
 ├── api
-│   ├── healthcheck.py
+│   ├── healthcheck.py        <= Router to check http server
 │   └── v1
-│       ├── dtos
-│       ├── articles.py
-│       └── users.py
-├── application
-│   ├── articles           <= App Module
-│   │   ├── factory.py     <= Factory to create an Articles Module
-│   │   ├── domain         <= Domain layer and abstract repositories
-│   │   ├── infrastructure <= Implementation of repositories
-│   │   └── use_cases      <= Use Cases
-│   └── users              <= App Module
-│       ├── factory.py
-│       ├── domain
-│       ├── infrastructure
-│       └── use_cases
+│       ├── dtos              <= DTO (Request, response, query args)
+│       └── blog.py           <= Routes for Blog BC
+├── app
+│   └── blog                  <= AppModule
+│       ├── factory.py        <= Factory to create an AppModule
+│       ├── domain            <= Domain layer (DomainModels, Errors, Events, Abstract Repositories)
+│       ├── infrastructure    <= Ifrastructure layer (Repositories)
+│       └── use_cases         <= Application Layer (Use Cases)
 ├── cmd
-│   ├── commands.py
-│   └── subcommands.py
-├── config.py
-├── factories.py
-├── main.py
-└── shared
+│   ├── commands.py           <= App Commands (./main.py server)
+│   └── subcommands.py        <= App Commands (./main.py create user)
+├── config.py                 <= App Config
+├── factories.py              <= Factories to initialize an App instance
+├── main.py                   <= Entripoint
+└── shared             Todo: refresh
     ├── domain
     │   ├── errors
     │   ├── events
-    │   ├── hex
-    │   └── value_objects
+    │   └── hex
     └── utils
         └── generate_uuid.py
 ```

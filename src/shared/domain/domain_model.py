@@ -1,11 +1,13 @@
 from typing import List
 
 from abc import ABC
+from dataclasses import dataclass
 
 from src.shared.domain.events.domain_event import DomainEvent
 
 
-class AggregateRoot(ABC):
+@dataclass
+class DomainModel(ABC):
     _events: List[DomainEvent] = []
 
     def record(self, domain_event: DomainEvent):

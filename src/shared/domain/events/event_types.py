@@ -2,4 +2,7 @@ from enum import Enum
 
 
 class EventType(Enum):
-    pass
+    USER_UPDATED = "USER_UPDATED"
+    USER_CREATED = "USER_CREATED"
+    USER_FOLLOWED = "USER_FOLLOWED"
+    USER_UNFOLLOWED = "USER_UNFOLLOWED"

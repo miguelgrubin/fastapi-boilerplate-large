@@ -2,7 +2,7 @@ from typing import List, NoReturn, Optional
 
 from abc import ABC, abstractmethod
 
-from src.application.articles.domain.article import Article
+from src.app.blog.domain.article import Article
 
 
 class ArticleRepository(ABC):

@@ -22,6 +22,8 @@ def upgrade():
         sa.Column("email", sa.String(50), nullable=False),
         sa.Column("password", sa.String(120), nullable=False),
         sa.Column("username", sa.String(80), nullable=False),
+        sa.Column("image", sa.String(120)),
+        sa.Column("biography", sa.Text()),
         sa.Column("updated_at", sa.DateTime),
         sa.Column("created_at", sa.DateTime),
     )

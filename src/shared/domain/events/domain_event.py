@@ -1,19 +1,15 @@
+import uuid
 from abc import ABC
 
-from src.shared.domain.value_objects.domain_id import DomainId
-from src.shared.utils.generate_uuid import generate_uuid
+from src.shared.domain.events import event_types
+from src.shared.domain.events.event_types import EventType
 
-
-class DomainEventId(DomainId):
-    pass
 
 class DomainEvent(ABC):
-    __id: DomainEventId
-    def __init__(self) -> None:
-        self.__id = DomainEventId(generate_uuid())
-        super().__init__()
+    id: str
+    event_type: EventType
 
-    def to_primitives(self):
-        return {
-            id: self.__id.value
-        }
+    def __init__(self, event_type: EventType) -> None:
+        self.id = str(uuid.uuid4())
+        self.event_type = event_type
+        super().__init__()

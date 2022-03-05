@@ -2,19 +2,14 @@ from typing import List, NoReturn, Optional
 
 from abc import ABC, abstractmethod
 
-from src.application.users.domain.user import User
-from src.shared.domain.value_objects.domain_id import DomainId
+from src.application.blog.domain.user import User
 
 
 class UserRepository(ABC):
     """docstring for UserRepository"""
 
     @abstractmethod
-    def create(self, user: User) -> User:
-        raise NotImplementedError
-
-    @abstractmethod
-    def update(self, user_id: DomainId, user: User) -> User:
+    def save(self, user: User) -> User:
         raise NotImplementedError
 
     @abstractmethod
