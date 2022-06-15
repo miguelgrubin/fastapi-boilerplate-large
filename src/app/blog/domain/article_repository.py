@@ -2,22 +2,22 @@ from typing import List, NoReturn, Optional
 
 from abc import ABC, abstractmethod
 
-from src.app.blog.domain.article import Article
+from app.blog.domain.article import Article
 
 
 class ArticleRepository(ABC):
-    """docstring for UserRepository"""
+    """docstring for ArticleRepository"""
 
     @abstractmethod
-    def save(self, user: Article) -> Article:
+    def save(self, article: Article) -> Article:
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, user: Article) -> NoReturn:
+    def delete(self, article_id: str) -> NoReturn:
         raise NotImplementedError
 
     @abstractmethod
-    def find_one(self, find_filters) -> Optional[Article]:
+    def find_one(self, article_id: str) -> Optional[Article]:
         raise NotImplementedError
 
     @abstractmethod

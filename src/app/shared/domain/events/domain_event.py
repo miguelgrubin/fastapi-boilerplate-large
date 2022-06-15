@@ -1,8 +1,6 @@
 import uuid
 from abc import ABC
-
-from src.shared.domain.events import event_types
-from src.shared.domain.events.event_types import EventType
+from app.shared.domain.events.event_types import EventType
 
 
 class DomainEvent(ABC):

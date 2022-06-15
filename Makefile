@@ -16,7 +16,7 @@ audit:
 
 .PHONY: typecheck
 typecheck:
-	pipenv run mypy --config-file setup.cfg src/**/*.py tests/**/*.py
+	pipenv run mypy src
 
 .PHONY: format-check
 format-check:
@@ -30,10 +30,14 @@ format:
 
 .PHONY: test
 test:
-	pipenv run pytest --ignore=tests/with_real_server
+	pipenv run pytest tests
 
 .PHONY: lint
-lint: pylint ./src
+lint:
+	PYTHONPATH=./src pylint ./src
+
+start:
+	PYTHONPATH=./src uvicorn  main:app --reload
 
 .PHONY: migration-generate
 migration-generate:

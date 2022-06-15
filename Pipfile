@@ -12,6 +12,7 @@ faker = "*"
 pytest-asyncio = "*"
 freezegun = "*"
 isort = "*"
+sqlalchemy-stubs = "*"
 
 [packages]
 uvicorn = {extras = ["standard"], version = "*"}
@@ -21,8 +22,8 @@ sqlalchemy = "*"
 rich = "*"
 typer = "*"
 arrow = "*"
-passlib = "*"
 fastapi-boilerplate = {path = "."}
+passlib = {extras = ["argon2"], version = "*"}
 
 [requires]
 python_version = "3.10"

@@ -1,8 +1,7 @@
 from typing import List, NoReturn, Optional
-
 from abc import ABC, abstractmethod
 
-from src.application.blog.domain.user import User
+from src.app.blog.domain.user import User
 
 
 class UserRepository(ABC):
@@ -13,11 +12,15 @@ class UserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def delete(self, user: User) -> NoReturn:
+    def delete(self, user_id: str) -> NoReturn:
         raise NotImplementedError
 
     @abstractmethod
-    def find_one(self, find_filters) -> Optional[User]:
+    def find_one_by_email(self, email: str) -> Optional[User]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def find_one(self, user_id: str) -> Optional[User]:
         raise NotImplementedError
 
     @abstractmethod

@@ -2,11 +2,11 @@
 
 from datetime import datetime
 
-from src.shared.domain.domain_model import DomainModel
+from src.app.shared.domain.domain_model import DomainModel
 
 
 class Article(DomainModel):
-    """Das"""
+    """Article on blog"""
 
     updated_at: datetime
     crated_at: datetime

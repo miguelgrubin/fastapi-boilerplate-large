@@ -18,45 +18,56 @@ And becouse life its too short to overengineer in all projects.
 **How?**
 
 ```
-Presentation      => HTTP Routers, ErrorHandlers, Middlewares, CLI commands <= Integration and E2E testing
- ↓ ↑
-Application       => Use Cases <= Social Unit Testing (Application + Domain)
- ↓ ↑
-Domain            => DomainModels, AbstractRepositories, Events, Errors <= Solitary Unit Testing (single class or function)
- ↓ ↑
-Infrastructure    => Repositories <= Integration testing
+Layers            || Components     || Testing Strategy
+=========================================================================================
+Presentation      || HTTP Routing   || Integration && E2E tests
+ ↓ ↑              ||                ||
+Application       || Use Cases      || Social Unit Testing (Use Cases + Domain)
+ ↓ ↑              ||                ||
+Domain            || Domain Models  || Solitary Unit Testing (single class or function)
+ ↓ ↑              ||                ||
+Infrastructure    || Repositories   || Integration testing
 ```
-
-- Blog `App Module`
-  - Articles `DomainModel`
-  - Users `DomainModel`
 
 ## Project Schema
 
 ```
 src
-├── api
-│   ├── healthcheck.py        <= Router to check http server
+├── api                                  <=  HTTP Routing
+│   ├── healthcheck.py                   <= Router to check http server
 │   └── v1
-│       ├── dtos              <= DTO (Request, response, query args)
-│       └── blog.py           <= Routes for Blog BC
+│       ├── dtos                         <= DTO (Request, response, query args)
+│       ├── articles.py                  <= Router for articles
+│       └── users.py                     <= Router for users
 ├── app
-│   └── blog                  <= AppModule
-│       ├── factory.py        <= Factory to create an AppModule
-│       ├── domain            <= Domain layer (DomainModels, Errors, Events, Abstract Repositories)
-│       ├── infrastructure    <= Ifrastructure layer (Repositories)
-│       └── use_cases         <= Application Layer (Use Cases)
+│   └── blog                             <= AppModule
+│       ├── domain
+│       │   ├── errors                   <= Domain Errors
+│       │   ├── events                   <= Domain Events
+│       │   ├── article.py               <= Domain Model
+│       │   ├── article_repository.py    <= Abstract Repository
+│       │   ├── user.py                  <= Domain Model
+│       │   └── user_repository.py       <= Abstract Repository
+│       ├── infrastructure               <= Implemented Repositories
+│       │   ├── article_memory_repository.py
+│       │   ├── article_mongodb_repository.py
+│       │   ├── article_sql_repository.py
+│       │   ├── user_memory_repository.py
+│       │   ├── user_mongodb_repository.py
+│       │   └── user_sql_repository.py
+│       ├── use_cases                    <= Use Cases
+│       └── factory.py                   <= Factory to create an AppModule
 ├── cmd
-│   ├── commands.py           <= App Commands (./main.py server)
-│   └── subcommands.py        <= App Commands (./main.py create user)
-├── config.py                 <= App Config
-├── factories.py              <= Factories to initialize an App instance
-├── main.py                   <= Entripoint
-└── shared             Todo: refresh
+│   ├── commands.py                      <= App Commands (./main.py server)
+│   └── subcommands.py                   <= App Subcommands (./main.py create user)
+├── config.py                            <= App Config
+├── factories.py                         <= Factories to initialize an App instance
+├── main.py                              <= Entripoint
+└── shared
     ├── domain
-    │   ├── errors
     │   ├── events
-    │   └── hex
-    └── utils
-        └── generate_uuid.py
+    │   │   ├── domain_event.py
+    │   │   └── event_types.py
+    │   └── domain_model.py
+    └── use_case.py
 ```

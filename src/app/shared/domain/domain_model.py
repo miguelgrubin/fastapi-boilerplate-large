@@ -1,14 +1,12 @@
 from typing import List
+from dataclasses import dataclass, field
 
-from abc import ABC
-from dataclasses import dataclass
-
-from src.shared.domain.events.domain_event import DomainEvent
+from app.shared.domain.events.domain_event import DomainEvent
 
 
 @dataclass
-class DomainModel(ABC):
-    _events: List[DomainEvent] = []
+class DomainModel:
+    _events: List[DomainEvent] = field(default_factory=list)
 
     def record(self, domain_event: DomainEvent):
         self._events.append(domain_event)
