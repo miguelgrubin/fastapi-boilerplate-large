@@ -3,8 +3,8 @@
 ## Users
 
 - Registration and Authentication
-  - `Users` can be authenticated via `JWT`
   - `Users` can be registered
+  - `Users` can be authenticated via `JWT`
   - `Users` can retrieve its own `User`
   - `Users` can modify its own `Profile`
 - Profiles - Follow and Unfollow

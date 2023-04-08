@@ -16,7 +16,7 @@ class UserRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def find_one_by_email(self, email: str) -> Optional[User]:
+    def find_one_by_email_or_username(self, email: str, username: str) -> Optional[User]:
         raise NotImplementedError
 
     @abstractmethod

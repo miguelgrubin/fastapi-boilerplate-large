@@ -1,8 +1,7 @@
 """ User Domain """
 
-from typing import List, Optional, TypedDict, TypeVar
+from typing import List, Optional, TypedDict
 
-from copy import copy
 from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
@@ -14,19 +13,14 @@ from app.blog.domain.events.user_unfollowed import UserUnfollowed
 from app.blog.domain.events.user_updated import UserUpdated
 from app.shared.domain.domain_model import DomainModel
 
-Self = TypeVar("Self", bound="User")
-
 
 class UserUpdateParams(TypedDict):
-    email: Optional[str]
-    username: Optional[str]
     bio: Optional[str]
     image: Optional[str]
 
 
 @dataclass
 class Profile:
-    username: str
     bio: Optional[str] = None
     image: Optional[str] = None
 
@@ -36,6 +30,7 @@ class User(DomainModel):
 
     id: str
     email: str
+    username: str
     password_hash: str
     profile: Profile
     following: List[str] = []
@@ -49,19 +44,17 @@ class User(DomainModel):
         user = User()
         user.id = str(uuid4())
         user.email = email
-        user.profile.username = username
+        user.username = username
         user.password_hash = password
+        user.profile = Profile()
         user.updated_at = datetime.now()
         user.crated_at = datetime.now()
 
-        cls.record(UserCreated())
+        user.record(UserCreated())
         return user
 
-    def update(self, payload: UserUpdateParams):
+    def update_profile(self, payload: UserUpdateParams):
         """Updates email and profile info."""
-        origin = copy(self)
-        self.email = payload.get("email", self.email)
-        self.profile.username = payload.get("username", self.profile.username)
         self.profile.bio = payload.get("bio", self.profile.bio)
         self.profile.image = payload.get("image", self.profile.image)
         self.updated_at = datetime.now()
@@ -69,10 +62,10 @@ class User(DomainModel):
 
     def follow(self, user_id: str):
         self.following.append(user_id)
-        self.record(UserFollowed(copy(self), user_id))
+        self.record(UserFollowed(user_id))
 
     def unfollow(self, user_id: str):
         if user_id not in self.following:
             raise UserNotFollowing(user_id)
         self.following.remove(user_id)
-        self.record(UserUnfollowed(copy(self), user_id))
+        self.record(UserUnfollowed(user_id))

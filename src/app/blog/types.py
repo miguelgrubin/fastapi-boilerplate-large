@@ -5,6 +5,6 @@ from app.blog.domain.user_repository import UserRepository
 from app.blog.use_cases.user_creator import UserCreator
 from app.shared.services.domain.password_service import PasswordService
 
-services_type = Dict[str, PasswordService]
-repositories_type = Dict[str, Union[UserRepository, ArticleRepository]]
-use_cases_type = Dict[str, Union[UserCreator, Any]]
+ServicesType = Dict[str, PasswordService]
+RepositoriesType = Dict[str, Union[UserRepository, ArticleRepository]]
+UseCasesType = Dict[str, Union[UserCreator, Any]]

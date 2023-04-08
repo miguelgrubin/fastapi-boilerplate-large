@@ -5,9 +5,9 @@ from app.blog import (
     USER_CREATOR,
 )
 from app.blog.types import (
-    repositories_type,
-    services_type,
-    use_cases_type,
+    RepositoriesType,
+    ServicesType,
+    UseCasesType,
 )
 from app.blog.infrastructure.server.user_routes import user_routes
 from app.blog.use_cases.user_creator import UserCreator
@@ -17,18 +17,18 @@ from app.shared import PASSWORD_SERVICE
 from app.shared.services.factories import create_password_service
 
 
-def create_services() -> services_type:
+def create_services() -> ServicesType:
     return {PASSWORD_SERVICE: create_password_service("argon2")}
 
 
-def create_repositories() -> repositories_type:
+def create_repositories() -> RepositoriesType:
     return {
         USER_REPOSITORY: UserRepositoryMemory(),
         ARTICLE_REPOSITORY: ArticleRepositoryMemory(),
     }
 
 
-def create_use_cases(repositories: repositories_type, services: services_type) -> use_cases_type:
+def create_use_cases(repositories: RepositoriesType, services: ServicesType) -> UseCasesType:
     return {
         USER_CREATOR: UserCreator(
             user_repository=repositories.get(USER_REPOSITORY),
@@ -37,7 +37,7 @@ def create_use_cases(repositories: repositories_type, services: services_type) -
     }
 
 
-def create_server(use_cases: use_cases_type) -> FastAPI:
+def create_server(use_cases: UseCasesType) -> FastAPI:
     blog_app = FastAPI()
     user_routes(blog_app, use_cases)
     return blog_app

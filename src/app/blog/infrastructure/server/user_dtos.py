@@ -10,7 +10,6 @@ class UserCreationDTO(BaseModel):
 
 
 class ProfileResponse(BaseModel):
-    username: str
     bio: Optional[str] = None
     image: Optional[str] = None
 
@@ -18,6 +17,7 @@ class ProfileResponse(BaseModel):
 class UserResponse(BaseModel):
     id: str
     email: str
+    username: str
     profile: ProfileResponse
     following: List[str] = []
     followers: List[str] = []

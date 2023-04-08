@@ -24,9 +24,10 @@ typer = "*"
 arrow = "*"
 fastapi-boilerplate = {path = "."}
 passlib = {extras = ["argon2"], version = "*"}
+pydantic = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.11"
 
 [pipenv]
 allow_prereleases = true
