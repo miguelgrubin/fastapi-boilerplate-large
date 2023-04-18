@@ -10,11 +10,6 @@ _Why Hexagonal Architecture?_
 
 Ports and Adapters, decoupled, testing strategy, tracing errors. ToDo: Explain this
 
-_Why not preventive DDD?_
-
-You Aren't Gonna Need It (YAGNI) if your project is datacentric, CRUDy or your domain layer is not really complex.
-And becouse life its too short to overengineer in all projects.
-
 **How?**
 
 ```
@@ -33,41 +28,48 @@ Infrastructure    || Repositories   || Integration testing
 
 ```
 src
-├── api                                  <=  HTTP Routing
-│   ├── healthcheck.py                   <= Router to check http server
-│   └── v1
-│       ├── dtos                         <= DTO (Request, response, query args)
-│       ├── articles.py                  <= Router for articles
-│       └── users.py                     <= Router for users
 ├── app
-│   └── blog                             <= AppModule
+│   ├── blog
+│   │   ├── application
+│   │   │   └── use_cases                       <=  Use Cases
+│   │   │       ├── __init__.py
+│   │   │       ├── user_creator.py
+│   │   │       └── user_logger.py
+│   │   ├── domain
+│   │   │   ├── article.py                      <=  Article Domain Model
+│   │   │   ├── article_repository.py           <=  Article Abstract Repository
+│   │   │   ├── errors                          <=  Blog Domain Errors (UserNotFound, UserAlreadyExits, ...)
+│   │   │   ├── events                          <=  Blog Domain Events (ArticleCreated, UserFollowed, ...)
+│   │   │   ├── event_types.py                  <=  Enum with all event types on Blog
+│   │   │   ├── user.py                         <=  User Domain Model
+│   │   │   └── user_repository.py              <=  User Abstract Repository
+│   │   ├── factory.py                          <=  Factories to initialize a Blog module (server, services, repositories, ...)
+│   │   ├── infrastructure
+│   │   │   ├── mappers                         <=  Mappers to transform (DTO <=> Domain Model <=> ORM Model)
+│   │   │   │   └── user_mapper.py
+│   │   │   ├── server                          <=  HTTP Routing
+│   │   │   │   ├── article_routes.py           <=  Article Routing
+│   │   │   │   ├── user_dtos.py                <=  User DTO (Requests, responses, query args)
+│   │   │   │   ├── user_error_handlers.py      <=  Error handling (DomainError => HTTP Error)
+│   │   │   │   └── user_routes.py              <=  User Routing
+│   │   │   └── storage                         <=  Repository Implementations
+│   │   │       ├── article_repository_memory.py
+│   │   │       ├── article_repository_mongodb.py
+│   │   │       ├── user_repository_memory.py
+│   │   │       └── user_repository_mongodb.py
+│   │   └── types.py                            <=  Blog typing objects
+│   └── shared                                  <=  Shared Module
+│       ├── application
+│       │   └── use_case.py                     <=  Base UseCase definition
 │       ├── domain
-│       │   ├── errors                   <= Domain Errors
-│       │   ├── events                   <= Domain Events
-│       │   ├── article.py               <= Domain Model
-│       │   ├── article_repository.py    <= Abstract Repository
-│       │   ├── user.py                  <= Domain Model
-│       │   └── user_repository.py       <= Abstract Repository
-│       ├── infrastructure               <= Implemented Repositories
-│       │   ├── article_memory_repository.py
-│       │   ├── article_mongodb_repository.py
-│       │   ├── article_sql_repository.py
-│       │   ├── user_memory_repository.py
-│       │   ├── user_mongodb_repository.py
-│       │   └── user_sql_repository.py
-│       ├── use_cases                    <= Use Cases
-│       └── factory.py                   <= Factory to create an AppModule
-├── cmd
-│   ├── commands.py                      <= App Commands (./main.py server)
-│   └── subcommands.py                   <= App Subcommands (./main.py create user)
-├── config.py                            <= App Config
-├── factories.py                         <= Factories to initialize an App instance
-├── main.py                              <= Entripoint
-└── shared
-    ├── domain
-    │   ├── events
-    │   │   ├── domain_event.py
-    │   │   └── event_types.py
-    │   └── domain_model.py
-    └── use_case.py
+│       │   ├── errors                          <=  Shared Domain Error
+│       │   ├── events                          <=  Shared Domain Events
+│       │   ├── services                        <=  Shared Abstract Services
+│       ├── factory.py                          <=  Factories to initialize Shared module
+│       ├── infrastructure
+│       │   └── services                        <=  Shared Implemented Services
+│       └── types.py                            <=  Shared Typing
+├── config.py                                   <=  App Config
+├── factories.py                                <=  Factories to initialize an App instance
+└── main.py                                     <=  Entrypoint
 ```
