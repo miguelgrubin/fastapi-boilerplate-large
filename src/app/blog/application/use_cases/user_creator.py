@@ -1,7 +1,7 @@
-from app.blog.domain.errors.username_aready_exits import UserAlreadyExits
-from app.blog.domain.user_repository import UserRepository
+from app.blog.domain.errors.user_aready_exits import UserAlreadyExits
 from app.blog.domain.user import User
-from app.shared.services.domain.password_service import PasswordService
+from app.blog.domain.user_repository import UserRepository
+from app.shared.domain.services.password_service import PasswordService
 
 
 class UserCreator:
@@ -9,7 +9,7 @@ class UserCreator:
         self.user_repository = user_repository
         self.password_service = password_service
 
-    def execute(self, username: str, password: str, email: str):
+    def execute(self, username: str, password: str, email: str) -> User:
         recorded = self.user_repository.find_one_by_email_or_username(email, username)
         if recorded:
             raise UserAlreadyExits()

@@ -1,4 +1,4 @@
-from app.shared.services.domain.password_service import PasswordService
+from app.shared.domain.services.password_service import PasswordService
 
 
 class PasswordServiceFake(PasswordService):

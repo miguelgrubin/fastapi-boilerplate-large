@@ -1,18 +1,29 @@
 """ User Domain """
 
-from datetime import datetime
+from typing import TypeVar
 
-from src.app.shared.domain.domain_model import DomainModel
+from datetime import datetime
+from uuid import uuid4
+
+from app.shared.domain.domain_model import DomainModel
+
+Self = TypeVar("Self", bound="Article")
 
 
 class Article(DomainModel):
     """Article on blog"""
 
+    id: str
     updated_at: datetime
     crated_at: datetime
 
-    def create(self):
-        """D"""
+    @classmethod
+    def create(cls: type[Self]) -> Self:
+        article = cls()
+        article.id = str(uuid4())
+        article.updated_at = datetime.now()
+        article.crated_at = datetime.now()
+        return article
 
-    def update(self):
+    def update(self) -> None:
         """D"""

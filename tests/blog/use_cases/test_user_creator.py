@@ -1,10 +1,10 @@
 from unittest.mock import patch
 
 import pytest
-from app.blog.domain.errors.username_aready_exits import UserAlreadyExits
+from app.blog.application.use_cases.user_creator import UserCreator
+from app.blog.domain.errors.user_aready_exits import UserAlreadyExits
 from app.blog.infrastructure.storage.user_repository_memory import UserRepositoryMemory
-from app.blog.use_cases.user_creator import UserCreator
-from app.shared.services.infrastructure.password_service_fake import PasswordServiceFake
+from app.shared.infrastructure.services.password_service_fake import PasswordServiceFake
 
 
 def _create_new_use_case():

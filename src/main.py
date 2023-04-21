@@ -1,13 +1,15 @@
-from app.blog.factory import create_blog
+from typing import Dict
+
 from fastapi import FastAPI
+
+from app.blog.factory import create_blog_server
 
 app = FastAPI()
 
 
 @app.get("/checkhealth")
-def checkhealth():
+def checkhealth() -> Dict[str, str]:
     return {"ping": "pong"}
 
 
-blog_app = create_blog()
-app.mount("/v1", blog_app)
+create_blog_server(app)

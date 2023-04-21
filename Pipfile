@@ -13,6 +13,7 @@ pytest-asyncio = "*"
 freezegun = "*"
 isort = "*"
 sqlalchemy-stubs = "*"
+coverage = {extras = ["toml"], version = "*"}
 
 [packages]
 uvicorn = {extras = ["standard"], version = "*"}
@@ -25,6 +26,7 @@ arrow = "*"
 fastapi-boilerplate = {path = "."}
 passlib = {extras = ["argon2"], version = "*"}
 pydantic = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
 
 [requires]
 python_version = "3.11"

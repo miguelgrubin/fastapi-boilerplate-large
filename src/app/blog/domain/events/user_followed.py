@@ -1,5 +1,5 @@
+from app.blog.domain.event_types import EventType
 from app.shared.domain.events.domain_event import DomainEvent
-from app.shared.domain.events.event_types import EventType
 
 
 class UserFollowed(DomainEvent):

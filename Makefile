@@ -16,28 +16,64 @@ audit:
 
 .PHONY: typecheck
 typecheck:
-	pipenv run mypy src
+	mypy src
 
 .PHONY: format-check
 format-check:
-	pipenv run black --config pyproject.toml --diff --check ./
-	pipenv run isort --settings-path pyproject.toml --check-only **/*.py
+	black --config pyproject.toml --diff --check ./
+	isort --settings-path pyproject.toml --check-only **/*.py
 
 .PHONY: format
 format:
-	pipenv run isort --settings-path pyproject.toml **/*.py
-	pipenv run black --config pyproject.toml ./
+	isort --settings-path pyproject.toml .
+	black --config pyproject.toml ./
 
 .PHONY: test
 test:
-	pipenv run pytest tests
+	pytest tests
+
+.PHONY: coverage
+coverage:
+	coverage run -m pytest
+	coverage report
+	coverage html
 
 .PHONY: lint
 lint:
 	PYTHONPATH=./src pylint ./src
 
+.PHONY: start
 start:
 	PYTHONPATH=./src uvicorn  main:app --reload
+
+.PHONY: clean
+clean: clean-pyc clean-test clean-docs clean-build
+
+## Remove Python file artifacts
+clean-pyc:
+	find . -name '*.pyc' -not -path "./venv/*" -exec rm -f {} +
+	find . -name '*.pyo' -not -path "./venv/*" -exec rm -f {} +
+	find . -name '*~' -not -path "./venv/*" -exec rm -f {} +
+	find . -name '__pycache__' -exec rm -fr {} +
+
+## Remove docs static site
+clean-docs:
+	rm -fr site/
+
+## Remove test and coverage artifacts
+clean-test:
+	rm -fr .tox/
+	rm -f .coverage
+	rm -f coverage.xml
+	rm -f pytest.xml
+	rm -f pylint-report.txt
+	rm -fr htmlcov/
+	rm -fr .pytest_cache
+
+## Remove build artifacts
+clean-build:
+	rm -fr build
+	rm -fr *.egg-info
 
 .PHONY: migration-generate
 migration-generate:

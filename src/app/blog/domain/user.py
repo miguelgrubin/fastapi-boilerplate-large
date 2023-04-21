@@ -1,6 +1,6 @@
 """ User Domain """
 
-from typing import List, Optional, TypedDict
+from typing import List, Optional, TypedDict, TypeVar
 
 from dataclasses import dataclass
 from datetime import datetime
@@ -12,6 +12,8 @@ from app.blog.domain.events.user_followed import UserFollowed
 from app.blog.domain.events.user_unfollowed import UserUnfollowed
 from app.blog.domain.events.user_updated import UserUpdated
 from app.shared.domain.domain_model import DomainModel
+
+Self = TypeVar("Self", bound="User")
 
 
 class UserUpdateParams(TypedDict):
@@ -39,9 +41,9 @@ class User(DomainModel):
     crated_at: datetime
 
     @classmethod
-    def create(cls, username: str, password: str, email: str):
+    def create(cls: type[Self], username: str, password: str, email: str) -> Self:
         """Creates a new User."""
-        user = User()
+        user = cls()
         user.id = str(uuid4())
         user.email = email
         user.username = username
@@ -53,18 +55,18 @@ class User(DomainModel):
         user.record(UserCreated())
         return user
 
-    def update_profile(self, payload: UserUpdateParams):
+    def update_profile(self, payload: UserUpdateParams) -> None:
         """Updates email and profile info."""
         self.profile.bio = payload.get("bio", self.profile.bio)
         self.profile.image = payload.get("image", self.profile.image)
         self.updated_at = datetime.now()
         self.record(UserUpdated(payload))
 
-    def follow(self, user_id: str):
+    def follow(self, user_id: str) -> None:
         self.following.append(user_id)
         self.record(UserFollowed(user_id))
 
-    def unfollow(self, user_id: str):
+    def unfollow(self, user_id: str) -> None:
         if user_id not in self.following:
             raise UserNotFollowing(user_id)
         self.following.remove(user_id)

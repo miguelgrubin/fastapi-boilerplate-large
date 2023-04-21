@@ -1,5 +1,7 @@
-from datetime import datetime
 from typing import List, Optional
+
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -23,3 +25,13 @@ class UserResponse(BaseModel):
     followers: List[str] = []
     updated_at: datetime
     crated_at: datetime
+
+
+class LoginDTO(BaseModel):
+    email: str
+    username: str
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
