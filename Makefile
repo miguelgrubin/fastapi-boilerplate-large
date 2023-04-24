@@ -1,18 +1,10 @@
-.PHONY: install-pyenv
-install-pyenv:
-	curl https://pyenv.run | bash
-
-.PHONY: install-pipenv
-install-pipenv:
-	pip install --user pipenv
-
 .PHONY: install
 install:
-	pipenv install --dev
+	poetry install
 
 .PHONY: audit
 audit:
-	pipenv check
+	safety check
 
 .PHONY: typecheck
 typecheck:

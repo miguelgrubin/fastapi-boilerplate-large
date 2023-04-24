@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 
 from jose import jwt, JWTError
-from app.shared.domain.errors.invalid_credentials import InvalidCredentials
 
+from app.shared.domain.errors.invalid_credentials import InvalidCredentials
 from app.shared.domain.services.jwt_service import JwtService
 from app.shared.domain.token_data import TokenData
 from config import JwtConfig
 
 
-class JwtServiceOAuth(JwtService):
+class JwtServiceJOSE(JwtService):
     def __init__(self) -> None:
         super().__init__()
         config = JwtConfig()
@@ -33,6 +33,6 @@ class JwtServiceOAuth(JwtService):
             if sub is None:
                 raise InvalidCredentials("sub is not present")
             token_data = TokenData(username=sub)
-        except JWTError:
-            raise InvalidCredentials("")
+        except JWTError as e:
+            raise InvalidCredentials(str(e))
         return token_data

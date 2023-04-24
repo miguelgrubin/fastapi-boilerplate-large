@@ -27,7 +27,7 @@
 
 <!-- - `pyenv`: Python version manager. Similar to `nvm` on NodeJS and `rbenv` on Ruby. -->
 
-- `pipenv`: Manage dependencies, security vulnerabilities via `safety` and creates virtual environments. Similar to `npm` on NodeJS.
+- `poetry`: Manage dependencies, creates virtual environments. Similar to `npm` on NodeJS.
 
 ### Documentation
 
